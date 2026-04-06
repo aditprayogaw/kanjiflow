@@ -3,6 +3,7 @@ import { onMounted, ref, watch } from 'vue';
 import * as fabric from 'fabric';
 import { useKanjiStore } from '../../stores/kanjiStore';
 import { Pencil, MousePointer2, Eraser, RotateCcw } from 'lucide-vue-next';
+import { normalizeStroke } from '../../utils/kanjiNormalizer';
 
 const kanjiStore = useKanjiStore();
 const canvasRef = ref(null);
@@ -31,8 +32,8 @@ onMounted(() => {
 
         path.set({
             id: id,
-            selectable: false, // Default false agar tidak ganggu saat menggambar
-            evented: false,    // Default false
+            selectable: false,
+            evented: false,
             hasControls: true,
             cornerColor: '#4338CA',
             cornerStyle: 'circle',
@@ -41,11 +42,12 @@ onMounted(() => {
             borderColor: '#4338CA',
         });
 
-        // PENTING: Kirim data yang dibutuhkan Store
+        // Normalisasi di sini, SEBELUM kirim ke store
+        const normalizedPoints = normalizeStroke(path);
+
         kanjiStore.addStroke({
             id: id,
-            pathData: path.path,
-            fabricObject: path
+            points: normalizedPoints  // Kirim points langsung, bukan fabricObject
         });
     });
 

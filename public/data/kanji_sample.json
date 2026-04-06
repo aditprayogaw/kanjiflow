@@ -1,17 +1,268 @@
 {
-    "木": {
+    "一": {
         "strokes": [
-            "M 10,50 L 90,50",
-            "M 50,10 L 50,90",
-            "M 50,50 L 20,80",
-            "M 50,50 L 80,80"
+            "M 10 50 L 90 50"
         ],
         "meanings": [
-            "Tree",
-            "Wood"
+            "One"
         ],
         "level": "N5",
-        "onyomi": "ボク, モク",
-        "kunyomi": "き, こ-"
+        "onyomi": "イチ",
+        "kunyomi": "ヒト"
+    },
+    "二": {
+        "strokes": [
+            "M 20 40 L 80 40",
+            "M 10 70 L 90 70"
+        ],
+        "meanings": [
+            "Two"
+        ],
+        "level": "N5",
+        "onyomi": "ニ",
+        "kunyomi": "フタ"
+    },
+    "三": {
+        "strokes": [
+            "M 20 30 L 80 30",
+            "M 25 50 L 75 50",
+            "M 10 80 L 90 80"
+        ],
+        "meanings": [
+            "Three"
+        ],
+        "level": "N5",
+        "onyomi": "サン",
+        "kunyomi": "ミ"
+    },
+    "口": {
+        "strokes": [
+            "M 25 30 L 25 80",
+            "M 25 30 L 75 30 L 75 80",
+            "M 25 80 L 75 80"
+        ],
+        "meanings": [
+            "Mouth"
+        ],
+        "level": "N5",
+        "onyomi": "コウ",
+        "kunyomi": "クチ"
+    },
+    "日": {
+        "strokes": [
+            "M 30 20 L 30 80",
+            "M 30 20 L 70 20 L 70 80",
+            "M 30 50 L 70 50",
+            "M 30 80 L 70 80"
+        ],
+        "meanings": [
+            "Sun / Day"
+        ],
+        "level": "N5",
+        "onyomi": "ニチ",
+        "kunyomi": "ヒ"
+    },
+    "月": {
+        "strokes": [
+            "M 35 20 L 30 85",
+            "M 35 20 L 65 20 L 70 85",
+            "M 35 45 L 65 45",
+            "M 35 65 L 65 65"
+        ],
+        "meanings": [
+            "Moon / Month"
+        ],
+        "level": "N5",
+        "onyomi": "ゲツ",
+        "kunyomi": "ツキ"
+    },
+    "木": {
+        "strokes": [
+            "M 15 45 L 85 45",
+            "M 50 15 L 50 85",
+            "M 50 45 L 25 75",
+            "M 50 45 L 75 75"
+        ],
+        "meanings": [
+            "Tree"
+        ],
+        "level": "N5",
+        "onyomi": "モク",
+        "kunyomi": "キ"
+    },
+    "本": {
+        "strokes": [
+            "M 15 40 L 85 40",
+            "M 50 10 L 50 80",
+            "M 50 40 L 25 70",
+            "M 50 40 L 75 70",
+            "M 30 65 L 70 65"
+        ],
+        "meanings": [
+            "Book / Origin"
+        ],
+        "level": "N5",
+        "onyomi": "ホン",
+        "kunyomi": "モト"
+    },
+    "山": {
+        "strokes": [
+            "M 50 20 L 50 80",
+            "M 20 50 L 20 80 L 80 80",
+            "M 80 50 L 80 80"
+        ],
+        "meanings": [
+            "Mountain"
+        ],
+        "level": "N5",
+        "onyomi": "サン",
+        "kunyomi": "ヤマ"
+    },
+    "川": {
+        "strokes": [
+            "M 30 20 L 25 80",
+            "M 50 20 L 50 80",
+            "M 70 20 L 75 80"
+        ],
+        "meanings": [
+            "River"
+        ],
+        "level": "N5",
+        "onyomi": "セン",
+        "kunyomi": "カワ"
+    },
+    "火": {
+        "strokes": [
+            "M 30 40 L 20 50",
+            "M 70 40 L 80 50",
+            "M 50 20 L 30 85",
+            "M 50 20 L 70 85"
+        ],
+        "meanings": [
+            "Fire"
+        ],
+        "level": "N5",
+        "onyomi": "カ",
+        "kunyomi": "ヒ"
+    },
+    "水": {
+        "strokes": [
+            "M 50 10 L 50 75 Q 50 85 40 85",
+            "M 20 35 L 40 45",
+            "M 80 30 L 50 50",
+            "M 55 55 L 85 85"
+        ],
+        "meanings": [
+            "Water"
+        ],
+        "level": "N5",
+        "onyomi": "スイ",
+        "kunyomi": "ミズ"
+    },
+    "土": {
+        "strokes": [
+            "M 25 45 L 75 45",
+            "M 50 15 L 50 80",
+            "M 15 80 L 85 80"
+        ],
+        "meanings": [
+            "Earth / Soil"
+        ],
+        "level": "N5",
+        "onyomi": "ド",
+        "kunyomi": "ツチ"
+    },
+    "人": {
+        "strokes": [
+            "M 50 20 L 25 85",
+            "M 50 20 L 75 85"
+        ],
+        "meanings": [
+            "Person"
+        ],
+        "level": "N5",
+        "onyomi": "ジン",
+        "kunyomi": "ヒト"
+    },
+    "大": {
+        "strokes": [
+            "M 15 45 L 85 45",
+            "M 50 15 L 25 85",
+            "M 50 15 L 75 85"
+        ],
+        "meanings": [
+            "Big"
+        ],
+        "level": "N5",
+        "onyomi": "ダイ",
+        "kunyomi": "オオ"
+    },
+    "小": {
+        "strokes": [
+            "M 50 15 L 50 75 Q 50 85 40 85",
+            "M 25 45 L 15 65",
+            "M 75 45 L 85 65"
+        ],
+        "meanings": [
+            "Small"
+        ],
+        "level": "N5",
+        "onyomi": "ショウ",
+        "kunyomi": "チイ"
+    },
+    "上": {
+        "strokes": [
+            "M 50 20 L 50 75",
+            "M 50 50 L 80 50",
+            "M 20 75 L 85 75"
+        ],
+        "meanings": [
+            "Up / Above"
+        ],
+        "level": "N5",
+        "onyomi": "ジョウ",
+        "kunyomi": "ウエ"
+    },
+    "下": {
+        "strokes": [
+            "M 15 25 L 85 25",
+            "M 50 25 L 50 75",
+            "M 55 50 L 75 70"
+        ],
+        "meanings": [
+            "Down / Below"
+        ],
+        "level": "N5",
+        "onyomi": "カ",
+        "kunyomi": "シタ"
+    },
+    "中": {
+        "strokes": [
+            "M 30 30 L 30 70",
+            "M 30 30 L 70 30 L 70 70",
+            "M 30 70 L 70 70",
+            "M 50 10 L 50 90"
+        ],
+        "meanings": [
+            "Inside / Middle"
+        ],
+        "level": "N5",
+        "onyomi": "チュウ",
+        "kunyomi": "ナカ"
+    },
+    "田": {
+        "strokes": [
+            "M 25 25 L 25 75",
+            "M 25 25 L 75 25 L 75 75",
+            "M 50 25 L 50 75",
+            "M 25 50 L 75 50",
+            "M 25 75 L 75 75"
+        ],
+        "meanings": [
+            "Rice Field"
+        ],
+        "level": "N5",
+        "onyomi": "デン",
+        "kunyomi": "タ"
     }
 }

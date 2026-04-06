@@ -1,26 +1,33 @@
 export const normalizeStroke = (fabricPath) => {
-    // Ambil data koordinat mentah dari Fabric.js
     const path = fabricPath.path;
     if (!path || path.length === 0) return [];
 
-    // Ambil dimensi bounding box garis tersebut
-    const { left, top, width, height } = fabricPath;
+    // Kumpulkan semua koordinat dulu untuk hitung bounding box yang akurat
+    const allX = [];
+    const allY = [];
 
-    // Gunakan dimensi terbesar sebagai pembagi agar aspek rasio terjaga
-    const size = Math.max(width, height, 1);
+    path.forEach(segment => {
+        const coords = segment.slice(1);
+        for (let i = 0; i < coords.length; i += 2) {
+            allX.push(coords[i]);
+            allY.push(coords[i + 1]);
+        }
+    });
 
-    console.log("🛠️ Normalizing stroke at:", { left, top, size });
+    const minX = Math.min(...allX);
+    const minY = Math.min(...allY);
+    const maxX = Math.max(...allX);
+    const maxY = Math.max(...allY);
+    const size = Math.max(maxX - minX, maxY - minY, 1);
 
     return path.map(segment => {
-        const command = segment[0]; // 'M', 'L', atau 'Q'
+        const command = segment[0];
         const coords = segment.slice(1);
         const normalizedCoords = [];
 
         for (let i = 0; i < coords.length; i += 2) {
-            // Rumus normalisasi ke skala 0-100
-            const nx = ((coords[i] - left) / size) * 100;
-            const ny = ((coords[i + 1] - top) / size) * 100;
-
+            const nx = ((coords[i] - minX) / size) * 100;
+            const ny = ((coords[i + 1] - minY) / size) * 100;
             normalizedCoords.push(Number(nx.toFixed(2)), Number(ny.toFixed(2)));
         }
 

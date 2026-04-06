@@ -49,8 +49,8 @@ import { Github, Instagram } from 'lucide-vue-next';
             </div>
 
             <div class="flex flex-col justify-end items-end text-right">
-                <p class="text-[10px] font-bold text-slate-300 uppercase tracking-tighter leading-relaxed">
-                    © 2026 KanjiFlow.<br>Built for the modern calligrapher.
+                <p class="text-[12px] font-bold text-slate-300 leading-relaxed">
+                    © 2026 KanjiFlow by AdityaVisual<br>Built for the modern calligrapher.
                 </p>
             </div>
 

@@ -27,16 +27,12 @@ export const useKanjiStore = defineStore('kanji', () => {
     function addStroke(data) {
         console.log("🖊️ New stroke detected. ID:", data.id);
 
-        // 1. Normalisasi
-        const normalizedPoints = normalizeStroke(data.fabricObject);
-
-        // 2. Simpan ke daftar strokes
+        // data.points sudah dinormalisasi dari CanvasBoard
         strokes.value.push({
             id: data.id,
-            points: normalizedPoints
+            points: data.points
         });
 
-        // 3. Jalankan pengenalan
         recognize();
     }
 
