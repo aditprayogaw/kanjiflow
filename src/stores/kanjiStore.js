@@ -1,6 +1,5 @@
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
-import { normalizeStroke } from '../utils/kanjiNormalizer';
 import { compareStrokes } from '../utils/kanjiMatcher';
 
 export const useKanjiStore = defineStore('kanji', () => {
@@ -11,28 +10,24 @@ export const useKanjiStore = defineStore('kanji', () => {
     const selectedStrokeIdFromList = ref(null);
     const selectedKanji = ref(null);
 
-    // Memuat Database dari Public Folder
+    // Memuat Database
     async function loadDatabase() {
         try {
-            const response = await fetch('/data/kanji_sample.json');
-            if (!response.ok) throw new Error("Database file not found");
-            kanjiDatabase.value = await response.json();
-            console.log("✅ Database Loaded:", kanjiDatabase.value);
+            // Gunakan path absolut dari public folder
+            const response = await fetch('/data/kanji/output/n5_complete.json');
+            const data = await response.json();
+            kanjiDatabase.value = data.characters;
+            console.log("✅ Database N5 Terintegrasi:", Object.keys(kanjiDatabase.value).length, "Kanji");
         } catch (error) {
-            console.error("❌ Failed to load database:", error);
+            console.error("❌ Gagal load database:", error);
         }
     }
 
-    // Dipanggil setiap kali user selesai menarik garis di CanvasBoard
     function addStroke(data) {
-        console.log("🖊️ New stroke detected. ID:", data.id);
-
-        // data.points sudah dinormalisasi dari CanvasBoard
         strokes.value.push({
             id: data.id,
             points: data.points
         });
-
         recognize();
     }
 
@@ -42,42 +37,40 @@ export const useKanjiStore = defineStore('kanji', () => {
             return;
         }
 
-        console.log("🧠 Engine: Analyzing strokes...");
         const results = [];
 
         for (const [char, data] of Object.entries(kanjiDatabase.value)) {
+            // Bandingkan coretan user dengan coretan di database
             const score = compareStrokes(strokes.value, data.strokes);
 
-            console.log(`- Comparing with ${char}: Score ${score}`);
-
-            // Threshold: Hanya tampilkan jika skor di atas 20%
-            if (score > 20) {
+            if (score > 15) { // Threshold diturunkan sedikit agar lebih sensitif
                 results.push({
                     char: char,
-                    match: score,
-                    meaning: data.meanings ? data.meanings[0] : "Unknown",
-                    level: data.level || "N/A",
-                    onyomi: data.onyomi || "-",
-                    kunyomi: data.kunyomi || "-"
+                    match: Math.round(score),
+                    // SESUAIKAN: Di JSON kita pakai 'meaning' (array), ambil indeks [0]
+                    meaning: data.meaning && data.meaning.length > 0 ? data.meaning[0] : "No meaning",
+                    level: data.level || "N5",
+                    // SESUAIKAN: Di JSON kita pakai objek 'readings'
+                    onyomi: data.readings?.onyomi || "-",
+                    kunyomi: data.readings?.kunyomi || "-",
+                    tip: data.tip || ""
                 });
             }
         }
 
         // Urutkan dari skor tertinggi
         recommendations.value = results.sort((a, b) => b.match - a.match);
-        console.log("✨ Recommendations updated:", recommendations.value.length, "items found.");
     }
 
     function removeStroke(id) {
         strokes.value = strokes.value.filter(s => s.id !== id);
-        recognize(); // Update ulang prediksi setelah hapus garis
+        recognize();
     }
 
     function clearAll() {
         strokes.value = [];
         recommendations.value = [];
         selectedKanji.value = null;
-        console.log("🧹 Canvas & Store Cleared");
     }
 
     return {
