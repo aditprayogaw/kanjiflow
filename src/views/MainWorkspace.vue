@@ -37,8 +37,9 @@ onMounted(async () => {
                     </div>
                     <RecommendationBar />
                 </div>
-
-                <KanjiDetail class="sticky top-24" />
+                <div class="h-[calc(100vh-200px)] sticky top-28">
+                    <KanjiDetail />
+                </div>
             </main>
 
             <FooterApp />
