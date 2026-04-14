@@ -5,68 +5,127 @@ import { compareStrokes } from '../utils/kanjiMatcher';
 export const useKanjiStore = defineStore('kanji', () => {
     const strokes = ref([]);
     const recommendations = ref([]);
-    const kanjiDatabase = ref(null);
-    const isDrawingMode = ref(true);
-    const selectedStrokeIdFromList = ref(null);
+
+    const kanjiDatabase = ref({});
+    const strokeIndex = ref({}); // 🔥 INDEXING
+
     const selectedKanji = ref(null);
 
-    // Memuat Database
-    async function loadDatabase() {
+    // =========================
+    // 🚀 LOAD ALL DATABASE
+    // =========================
+    async function loadAllDatabase() {
         try {
-            // Gunakan path absolut dari public folder
-            const response = await fetch('/data/kanji/output/n5_complete.json');
-            const data = await response.json();
-            kanjiDatabase.value = data.characters;
-            console.log("✅ Database N5 Terintegrasi:", Object.keys(kanjiDatabase.value).length, "Kanji");
+            const levels = ['n5', 'n4', 'n3', 'n2', 'n1'];
+            let combined = {};
+
+            for (const level of levels) {
+                const res = await fetch(`/data/kanji/output/${level}_complete.json`);
+                const data = await res.json();
+
+                combined = { ...combined, ...data.characters };
+            }
+
+            kanjiDatabase.value = combined;
+
+            console.log("✅ Total Kanji:", Object.keys(combined).length);
+
+            // 🔥 Build index setelah load
+            buildIndex(combined);
+
         } catch (error) {
             console.error("❌ Gagal load database:", error);
         }
     }
 
+    // =========================
+    // 🔥 BUILD INDEX (PENTING)
+    // =========================
+    function buildIndex(data) {
+        const index = {};
+
+        for (const [char, d] of Object.entries(data)) {
+            const count = d.strokes.length;
+
+            if (!index[count]) index[count] = [];
+
+            index[count].push({
+                char,
+                data: d
+            });
+        }
+
+        strokeIndex.value = index;
+
+        console.log("⚡ Index siap:", Object.keys(index).length, "stroke groups");
+    }
+
+    // =========================
+    // ✍️ TAMBAH STROKE
+    // =========================
     function addStroke(data) {
         strokes.value.push({
             id: data.id,
             points: data.points
         });
+
         recognize();
     }
 
+    // =========================
+    // 🧠 RECOGNITION ENGINE
+    // =========================
     function recognize() {
-        if (!kanjiDatabase.value || strokes.value.length === 0) {
+        if (strokes.value.length === 0) {
             recommendations.value = [];
             return;
         }
 
+        const inputCount = strokes.value.length;
+
+        // 🔥 Ambil kandidat dari index (±2 stroke)
+        const candidates = [];
+
+        for (let i = inputCount - 2; i <= inputCount + 2; i++) {
+            if (strokeIndex.value[i]) {
+                candidates.push(...strokeIndex.value[i]);
+            }
+        }
+
         const results = [];
 
-        for (const [char, data] of Object.entries(kanjiDatabase.value)) {
-            // Bandingkan coretan user dengan coretan di database
-            const score = compareStrokes(strokes.value, data.strokes);
+        for (const item of candidates) {
+            const score = compareStrokes(strokes.value, item.data.strokes);
 
-            if (score > 15) { // Threshold diturunkan sedikit agar lebih sensitif
+            if (score > 15) {
                 results.push({
-                    char: char,
+                    char: item.char,
                     match: Math.round(score),
-                    // SESUAIKAN: Di JSON kita pakai 'meaning' (array), ambil indeks [0]
-                    meaning: data.meaning && data.meaning.length > 0 ? data.meaning[0] : "No meaning",
-                    level: data.level || "N5",
-                    // SESUAIKAN: Di JSON kita pakai objek 'readings'
-                    onyomi: data.readings?.onyomi || "-",
-                    kunyomi: data.readings?.kunyomi || "-",
-                    tip: data.tip || ""
+                    meaning: item.data.meaning?.[0] || "No meaning",
+                    level: item.data.level || "-",
+                    onyomi: item.data.readings?.onyomi || "-",
+                    kunyomi: item.data.readings?.kunyomi || "-"
                 });
             }
         }
 
-        // Urutkan dari skor tertinggi
-        recommendations.value = results.sort((a, b) => b.match - a.match);
+        // 🔥 Ambil TOP 5
+        recommendations.value = results
+            .sort((a, b) => b.match - a.match)
+            .slice(0, 5);
     }
 
+    // =========================
+    // ❌ HAPUS STROKE
+    // =========================
     function removeStroke(id) {
         strokes.value = strokes.value.filter(s => s.id !== id);
         recognize();
     }
 
+    // =========================
+    // 🧹 CLEAR
+    // =========================
     function clearAll() {
         strokes.value = [];
         recommendations.value = [];
@@ -74,8 +133,15 @@ export const useKanjiStore = defineStore('kanji', () => {
     }
 
     return {
-        strokes, recommendations, kanjiDatabase, isDrawingMode,
-        selectedStrokeIdFromList, selectedKanji,
-        loadDatabase, addStroke, removeStroke, clearAll
+        strokes,
+        recommendations,
+        kanjiDatabase,
+        strokeIndex,
+        selectedKanji,
+
+        loadAllDatabase,
+        addStroke,
+        removeStroke,
+        clearAll
     };
 });
