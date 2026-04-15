@@ -13,7 +13,7 @@ import { useKanjiStore } from '../stores/kanjiStore';
 const kanjiStore = useKanjiStore();
 
 onMounted(async () => {
-    await kanjiStore.loadDatabase();
+    await kanjiStore.loadAllDatabase();
 });
 </script>
 

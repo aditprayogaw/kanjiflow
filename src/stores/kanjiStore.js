@@ -7,7 +7,7 @@ export const useKanjiStore = defineStore('kanji', () => {
     const recommendations = ref([]);
 
     const kanjiDatabase = ref({});
-    const strokeIndex = ref({}); // 🔥 INDEXING
+    const strokeIndex = ref({}); 
 
     const selectedKanji = ref(null);
 
@@ -23,7 +23,17 @@ export const useKanjiStore = defineStore('kanji', () => {
                 const res = await fetch(`/data/kanji/output/${level}_complete.json`);
                 const data = await res.json();
 
-                combined = { ...combined, ...data.characters };
+                const currentLevel = data.level;
+
+                const charactersWithLevel = {};
+                for (const [char, charData] of Object.entries(data.characters)) {
+                    charactersWithLevel[char] = {
+                        ...charData,
+                        level: currentLevel 
+                    };
+                }
+
+                combined = { ...combined, ...data.characters, ...charactersWithLevel };
             }
 
             kanjiDatabase.value = combined;
